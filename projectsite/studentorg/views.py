@@ -41,8 +41,14 @@ class OrgMemberList(ListView):
     template_name = 'orgmember_list.html' 
     paginate_by = 5
 
-class OrganizationCreateView(CreateView): 
+class OrgMemberCreateView(CreateView): 
     model = Organization 
     form_class = OrganizationForm 
     template_name = 'org_member_add.html' 
+    success_url = reverse_lazy('orgmember-list')
+
+class OrgMemberUpdateView(UpdateView): 
+    model = Organization 
+    form_class = OrganizationForm 
+    template_name = 'org_member_edit.html' 
     success_url = reverse_lazy('orgmember-list')
