@@ -12,6 +12,9 @@ from studentorg.models import College
 from studentorg.forms import CollegeForm
 from studentorg.models import Program
 from studentorg.forms import ProgramForm
+from typing import Any
+from django.db.models.query import QuerySet
+from django.db.models import Q
 
 from django.urls import reverse_lazy
 
@@ -25,6 +28,14 @@ class OrganizationList(ListView):
     context_object_name = 'organization' 
     template_name = 'org_list.html' 
     paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs): 
+        qs = super(OrganizationList, self).get_queryset(*args, **kwargs) 
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q') 
+            qs = qs.filter(Q(name__icontains=query) | 
+                           Q(description__icontains=query)) 
+            return qs
 
 class OrganizationCreateView(CreateView): 
     model = Organization 
@@ -49,6 +60,14 @@ class OrgMemberList(ListView):
     template_name = 'org_member_list.html' 
     paginate_by = 5
 
+    def get_queryset(self, *args, **kwargs): 
+        qs = super(OrgMemberList, self).get_queryset(*args, **kwargs) 
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q') 
+            qs = qs.filter(Q(name__icontains=query) | 
+                           Q(description__icontains=query)) 
+            return qs
+
 class OrgMemberCreateView(CreateView): 
     model = OrgMember 
     form_class = OrgMemberForm 
@@ -71,6 +90,14 @@ class StudentList(ListView):
     context_object_name = 'student' 
     template_name = 'student_list.html' 
     paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs): 
+        qs = super(StudentList, self).get_queryset(*args, **kwargs) 
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q') 
+            qs = qs.filter(Q(name__icontains=query) | 
+                           Q(description__icontains=query)) 
+            return qs
 
 class StudentCreateView(CreateView): 
     model = Student 
@@ -95,6 +122,14 @@ class CollegeList(ListView):
     template_name = 'college_list.html' 
     paginate_by = 5
 
+    def get_queryset(self, *args, **kwargs): 
+        qs = super(CollegeList, self).get_queryset(*args, **kwargs) 
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q') 
+            qs = qs.filter(Q(name__icontains=query) | 
+                           Q(description__icontains=query)) 
+            return qs
+
 class CollegeCreateView(CreateView): 
     model = College 
     form_class = CollegeForm
@@ -117,6 +152,14 @@ class ProgramList(ListView):
     context_object_name = 'college' 
     template_name = 'college_list.html' 
     paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs): 
+        qs = super(ProgramList, self).get_queryset(*args, **kwargs) 
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q') 
+            qs = qs.filter(Q(name__icontains=query) | 
+                           Q(description__icontains=query)) 
+            return qs
 
 class ProgramCreateView(CreateView): 
     model = Program 
