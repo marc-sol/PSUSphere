@@ -57,3 +57,9 @@ class OrgMemberDeleteView(DeleteView):
     model = OrgMember 
     template_name = 'org_member_del.html' 
     success_url = reverse_lazy('orgmember-list')
+
+class Student(ListView): 
+    model = Student 
+    context_object_name = 'student' 
+    template_name = 'student_list.html' 
+    paginate_by = 5
