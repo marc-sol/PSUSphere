@@ -23,6 +23,7 @@ from django.db.models import Count
 from datetime import datetime
 from django.utils.decorators import method_decorator 
 from django.contrib.auth.decorators import login_required
+from fire.models import Locations, Incident, FireStation
 
 @method_decorator(login_required, name='dispatch')
 class HomePageView(ListView): 
@@ -154,6 +155,20 @@ def multipleBarbySeverity(request):
         for level in result: 
             result[level] = dict(sorted(result[level].items()))
         return JsonResponse(result)
+    
+def map_station(request): 
+    fireStations = FireStation.objects.values('name', 'latitude', 'longitude')
+    
+    for fs in fireStations: 
+        fs['latitude'] = float(fs['latitude']) 
+        fs['longitude'] = float(fs['longitude'])
+    
+    fireStations_list = list(fireStations)
+
+    context = { 
+        'fireStations': fireStations_list, 
+        }
+    return render(request, 'map_station.html', context)
 
 
 class OrganizationList(ListView): 

@@ -6,9 +6,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>Typography - Ready Bootstrap Dashboard</title>
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-	<link rel="stylesheet" href="{% static 'css/ready.css' %}">
-	<link rel="stylesheet" href="{% static 'css/demo.css' %}">
+	<link rel="stylesheet" href="{% static 'static/Ready-Bootstrap-Dashboard-master/assets/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'static/Ready-Bootstrap-Dashboard-master/assets/css/ready.css' %}">
+	<link rel="stylesheet" href="{% static 'static/Ready-Bootstrap-Dashboard-master/assets/css/demo.css' %}">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 </head>
 <body>
@@ -203,6 +203,13 @@
 								<i class="la la-font"></i>
 								<p>Program</p>
 								<span class="badge badge-danger">25</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="{% url 'map-station' %}">
+								<i class="la la-map-marker"></i>
+								<p>Fire Stations</p>
+								<span class="sub-item">Fire Stations</span>
 							</a>
 						</li>
 					</ul>
