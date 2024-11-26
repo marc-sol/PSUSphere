@@ -16,13 +16,9 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.db.models import Q
 from django.urls import reverse_lazy
-from django.db import connection 
-from django.http import JsonResponse 
-from django.db.models.functions import ExtractMonth
-from django.db.models import Count 
-from datetime import datetime
 from django.utils.decorators import method_decorator 
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 @method_decorator(login_required, name='dispatch')
 class HomePageView(ListView): 
@@ -148,6 +144,12 @@ class CollegeUpdateView(UpdateView):
     form_class = CollegeForm 
     template_name = 'college_edit.html' 
     success_url = reverse_lazy('college-list')
+
+    def form_valid(self, form):
+        college_name = form.instance.college_name
+        messages.success(self.request, f'{college_name} has been successfully updated.')
+        return super().form_valid(form)
+
 
 class CollegeDeleteView(DeleteView): 
     model = College 
