@@ -141,13 +141,15 @@ class CollegeCreateView(CreateView):
 
 class CollegeUpdateView(UpdateView): 
     model = College 
-    form_class = CollegeForm 
-    template_name = 'college_edit.html' 
+    fields = "__all__"
+    context_object_name = "college"
+    template_name = 'college_list.html' 
     success_url = reverse_lazy('college-list')
 
     def form_valid(self, form):
         college_name = form.instance.college_name
         messages.success(self.request, f'{college_name} has been successfully updated.')
+        
         return super().form_valid(form)
 
 
@@ -159,7 +161,7 @@ class CollegeDeleteView(DeleteView):
 class ProgramList(ListView): 
     model = College
     context_object_name = 'college' 
-    template_name = 'college_list.html' 
+    template_name = 'program_list.html' 
     paginate_by = 5
 
     def get_queryset(self, *args, **kwargs): 
