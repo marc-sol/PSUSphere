@@ -2,7 +2,7 @@
 URL configuration for projectsite project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
+    https://docs.djangoproject.com/en/4.2/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -15,20 +15,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
-from studentorg.views import HomePageView, OrganizationList, OrganizationCreateView, OrganizationUpdateView, OrganizationDeleteView,  OrgMemberList, OrgMemberCreateView, OrgMemberUpdateView, OrgMemberDeleteView, StudentList, StudentCreateView, StudentUpdateView, StudentDeleteView, CollegeList, CollegeCreateView, CollegeUpdateView, CollegeDeleteView, ProgramList, ProgramCreateView, ProgramUpdateView, ProgramDeleteView
+from django.urls import path
+from studentorg.views import HomePageView, OrganizationList, OrganizationCreateView, OrganizationUpdateView, OrganizationDeleteView
+from studentorg.views import OrgMemberList, OrgMemberCreateView, OrgMemberUpdateView, OrgMemberDeleteView
+from studentorg.views import StudentList, StudentCreateView, StudentUpdateView, StudentDeleteView
+from studentorg.views import CollegeList, CollegeCreateView, CollegeUpdateView, CollegeDeleteView, bubble_chart_data
+from studentorg.views import ProgramList, ProgramCreateView, ProgramUpdateView, ProgramDeleteView, timeline_chart_data, ChartView, popular_organization_by_college
 from studentorg import views
 from django.contrib.auth import views as auth_views
+from django.urls import path, re_path
 
 urlpatterns = [
-    path("admin/", admin.site.urls), 
+    path("admin/", admin.site.urls),
     path('', views.HomePageView.as_view(), name='home'),
     path('organization_list', OrganizationList.as_view(), name='organization-list'),
     path('organization_list/add', OrganizationCreateView.as_view(), name='organization-add'),
-    path('organization_list/<pk>',OrganizationUpdateView.as_view(), name='organization-update'),
-    path('organization_list/<pk>/delete', OrganizationDeleteView.as_view(), name='organization-delete'),    
-    path('orgmember_list', OrgMemberList.as_view(), name='orgmember-list'),
-    path('orgmember_list/add', OrgMemberCreateView.as_view(), name='orgmember-add'),
+    path('organization_list/<pk>', OrganizationUpdateView.as_view(), name='organization-update'),
+    path('organization_list/<pk>/delete', OrganizationDeleteView.as_view(), name='organization-delete'),
+    path('orgmember_list', OrgMemberList.as_view(), name='orgmember-list'), 
+    path('orgmember_list/add', OrgMemberCreateView.as_view(), name='orgmember-add'), 
     path('orgmember_list/<pk>', OrgMemberUpdateView.as_view(), name='orgmember-update'),
     path('orgmember_list/<pk>/delete', OrgMemberDeleteView.as_view(), name='orgmember-delete'),
     path('student_list', StudentList.as_view(), name='student-list'),
@@ -42,8 +47,13 @@ urlpatterns = [
     path('program_list', ProgramList.as_view(), name='program-list'),
     path('program_list/add', ProgramCreateView.as_view(), name='program-add'),
     path('program_list/<pk>', ProgramUpdateView.as_view(), name='program-update'),
-    path('program_list/<pk>/delete', ProgramDeleteView.as_view(), name='program-delete'),    
-    re_path(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'), 
+    path('program_list/<pk>/delete', ProgramDeleteView.as_view(), name='program-delete'),
+    path('timelinechart/', timeline_chart_data, name='timeline-chart'),
+    path('dashboard/', ChartView.as_view(), name='dashboard'),
+    path('popularorgs', popular_organization_by_college, name='popularorgs-chart'),
+    path('bubble-chart-data/', views.bubble_chart_data, name='bubble-chart-data'),
+    path('membership-distribution/', views.membership_distribution_by_organization, name='membership-distribution'),
+    path('scatter-plot-data/', views.scatter_plot_data, name='scatter-plot-data'),
+    re_path(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     re_path(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
-    
 ]
